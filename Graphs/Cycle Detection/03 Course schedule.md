@@ -38,3 +38,9 @@ class Solution:
 
 
 ```
+
+**Time Complexity**
+- The time complexity of the code is O(V + E), where V is the number of courses (vertices) and E is the number of prerequisites (edges). This is because the code performs a Depth-First Search (DFS) traversal starting from each course, visiting each course and its prerequisites once.
+
+**Space Complexity**
+- The space complexity of the code is O(V), where V is the number of courses. This is primarily due to the space used by the color array, which stores the color (visited status) of each course. Additionally, the recursive DFS function call stack requires space proportional to the maximum depth of the recursion, which is bounded by the number of courses. Overall, the space complexity is linear with respect to the number of courses.

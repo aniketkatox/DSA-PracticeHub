@@ -36,3 +36,10 @@ class Solution:
 
 
 ```
+
+**Time Complexity**
+- The time complexity of the code is O(V + E), where V is the number of vertices and E is the number of edges in the graph represented by the adjacency list adj. This is because the code performs a Depth-First Search (DFS) traversal starting from each vertex, visiting each vertex and edge once.
+
+**Space Complexity**
+- The space complexity of the code is O(V), where V is the number of vertices. This is primarily due to the space used by the color array, which stores the color (visited status) of each vertex. Additionally, the recursive DFS function call stack requires space proportional to the maximum depth of the recursion, which is bounded by the number of vertices. Overall, the space complexity is linear with respect to the number of vertices in the graph.
+

@@ -40,5 +40,6 @@ class Solution:
 
 **Time Complexity**
 - The time complexity of the code is O(N), where N is the length of the edges array. This is because the code visits each node in the graph exactly once during the DFS traversal
+
 **Space Complexity**
 - The space complexity of the code is O(N) as well. This is primarily due to the space used by the dist map, which stores the distance of each node from the starting node during the DFS traversal. In the worst case, all N nodes could be present in the dist map. Additionally, the visit array requires O(N) space to keep track of visited nodes. Overall, the space complexity is linear with respect to the number of nodes in the graph.

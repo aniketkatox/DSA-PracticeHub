@@ -2,22 +2,34 @@
 
 ```python 
 
+from typing import List
+
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
-        # Iterate through the elements of the nums list
-        for i in range(len(nums)):
-            # Swap elements to their correct positions
-            while nums[i] < len(nums) and nums[i] != i:
-                target_index = nums[i]
-                nums[i], nums[target_index] = nums[target_index], nums[i]
+        """
+        Finds the missing number in a list of integers.
+
+        Args:
+            nums (List[int]): The input list of integers.
+
+        Returns:
+            int: The missing number.
+
+        """
+        index = 0
+        while index < len(nums):
+            if nums[index] < len(nums) and nums[index] != index:
+                swap_index = nums[index]
+                nums[index], nums[swap_index] = nums[swap_index], nums[index]
+            else:
+                index += 1
         
-        # Find the first missing number in the sorted list
         for i in range(len(nums)):
             if nums[i] != i:
                 return i
         
-        # If no missing number found, return the last element as the missing number
         return len(nums)
+
 
 ```
 

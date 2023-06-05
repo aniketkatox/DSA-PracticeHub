@@ -76,3 +76,50 @@ class Solution:
 ## Space Complexity
 - The space complexity is O(1) because the code uses a constant amount of extra space to store variables such as low, high, pivot, mid, and middle. The space usage does not depend on the size of the input array.
 
+
+**ALITER**
+
+```python 
+
+class Solution:
+    def search(self, A: List[int], B: int) -> int:
+        """
+        Searches for the target value in a rotated sorted array.
+
+        Args:
+            A (List[int]): The rotated sorted array.
+            B (int): The target value to search.
+
+        Returns:
+            int: The index of the target value if found, -1 otherwise.
+        """
+        low = 0
+        high = len(A) - 1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            if A[mid] == B:
+                return mid
+
+            if A[low] <= A[mid]:
+                # Left half is sorted
+                if A[low] <= B <= A[mid]:
+                    # Target is within the sorted left half
+                    high = mid - 1
+                else:
+                    # Target is not within the sorted left half, search in the right half
+                    low = mid + 1
+            else:
+                # Right half is sorted
+                if A[mid] <= B <= A[high]:
+                    # Target is within the sorted right half
+                    low = mid + 1
+                else:
+                    # Target is not within the sorted right half, search in the left half
+                    high = mid - 1
+
+        return -1
+
+
+```

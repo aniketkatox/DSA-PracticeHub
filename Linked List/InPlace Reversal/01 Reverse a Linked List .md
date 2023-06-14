@@ -33,3 +33,34 @@ class Solution:
 
 **Space Complexity**
 - Space Complexity: O(1). The method uses a constant amount of extra space regardless of the size of the linked list. It only requires a few pointers (prev_node, next_node, and current_node) to perform the reversal in-place.
+
+# C++ Code
+
+```cpp
+class Solution {
+public:
+    /**
+     * Reverses a linked list.
+     * 
+     * @param head The head of the linked list.
+     * @return The new head of the reversed linked list.
+     */
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = NULL;  // Pointer to the previous node
+        ListNode* curr = head;     // Pointer to the current node
+
+        while (curr != NULL) {
+            ListNode* nextNode = curr->next;  // Pointer to the next node
+
+            // Reverse the `next` pointer of the current node
+            curr->next = prev;
+
+            // Move the pointers one step forward
+            prev = curr;
+            curr = nextNode;
+        }
+        // After the loop, `prev` will be the new head of the reversed linked list
+        return prev;
+    }
+};
+```

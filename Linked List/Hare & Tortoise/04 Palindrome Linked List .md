@@ -67,3 +67,53 @@ class Solution:
 
 **Space Complexity**
 - The space complexity is O(1) because we only use a constant amount of extra space for the dummy_node, turtle, and hare pointers. The reversal of the second half of the linked list is done in-place, so no additional space is required.
+
+# C++ Code
+```cpp
+// Find middle and then reverse the other half of the linked list and check if it is a palindrome.
+class Solution {
+public:
+    /**
+     * Checks whether a linked list is a palindrome.
+     *
+     * @param head The head of the linked list.
+     * @return True if the linked list is a palindrome, false otherwise.
+     */
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // Find middle (slow) of the linked list
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // Reverse the second half of the linked list
+        ListNode* prevptr = NULL;
+        ListNode* currptr = slow;
+        ListNode* nextptr;
+
+        while (currptr != NULL) {
+            nextptr = currptr->next;
+            currptr->next = prevptr;
+            prevptr = currptr;
+            currptr = nextptr;
+        }
+
+        // Checking if it is a palindrome or not
+        ListNode* leftptr = head;
+        ListNode* rightptr = prevptr;
+
+        while (rightptr != NULL) {
+            if (rightptr->val != leftptr->val) {
+                return false;
+            }
+            rightptr = rightptr->next;
+            leftptr = leftptr->next;
+        }
+
+        return true;
+    }
+};
+```

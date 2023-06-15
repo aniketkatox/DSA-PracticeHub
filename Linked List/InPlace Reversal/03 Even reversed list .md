@@ -91,3 +91,83 @@ class Solution:
 
 **Space Complexity**
 - The space complexity of the solve function is O(1) because we are performing the rearrangement in-place, without using any additional data structures that depend on the size of the input.
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    /**
+     * Reverses the order of nodes at even positions in the linked list and returns the head of the modified linked list.
+     *
+     * @param A The head of the linked list.
+     * @return The head of the modified linked list.
+     */
+    ListNode* solve(ListNode* A) {
+        if (A->next == NULL) {
+            return A;
+        }
+
+        // Separate odd and even position nodes
+        ListNode* odd_list_head = A;
+        ListNode* even_list_head = A->next;
+        ListNode* p1 = A;  // Pointer for odd position nodes
+        ListNode* p2 = A->next;  // Pointer for even position nodes
+
+        bool is_odd = true;
+        ListNode* temp = A->next->next;
+        while (temp != NULL) {
+            if (is_odd) {
+                p1->next = temp;
+                p1 = p1->next;
+            } else {
+                p2->next = temp;
+                p2 = p2->next;
+            }
+            temp = temp->next;
+            is_odd = !is_odd;
+        }
+        p1->next = NULL;
+        p2->next = NULL;
+
+        // Reverse even position nodes
+        ListNode* prev = NULL;
+        ListNode* curr1 = even_list_head;
+        ListNode* nextptr;
+
+        while (curr1 != NULL) {
+            nextptr = curr1->next;
+            curr1->next = prev;
+            prev = curr1;
+            curr1 = nextptr;
+        }
+        even_list_head = prev;
+
+        ListNode* dummy = new ListNode(0);
+        ListNode* curr2 = dummy;
+        p1 = odd_list_head;
+        p2 = even_list_head;
+        is_odd = true;
+
+        // Merge odd and reversed even position nodes
+        while (p1 && p2) {
+            if (is_odd) {
+                curr2->next = p1;
+                p1 = p1->next;
+            } else {
+                curr2->next = p2;
+                p2 = p2->next;
+            }
+            curr2 = curr2->next;
+            is_odd = !is_odd;
+        }
+
+        if (p1) {
+            curr2->next = p1;
+        } else {
+            curr2->next = p2;
+        }
+
+        return dummy->next;
+    }
+};
+```

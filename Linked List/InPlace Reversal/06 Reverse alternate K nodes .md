@@ -56,3 +56,81 @@ class Solution:
 
 **Space Complexity**
 - The space complexity is O(1) because we only use a constant amount of extra space to store temporary variables and create the dummy node. We are not using any additional data structures that grow with the input size.
+
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    /**
+     * Reverses every K elements in a linked list.
+     *
+     * @param head The head of the linked list.
+     * @param k The number of elements to reverse in each group.
+     * @return The head of the modified linked list.
+     */
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if (head->next == NULL || k == 1) {
+            return head;
+        }
+
+        int size = 0;
+        ListNode* temp = head;
+
+        // Calculate the size of the linked list
+        while (temp != nullptr) {
+            size++;
+            temp = temp->next;
+        }
+
+        int count = size / k; // Number of groups to be reversed
+        ListNode* dummy = new ListNode(0); // Create a dummy node
+        dummy->next = head;
+        ListNode* prev1 = dummy;
+        ListNode* curr1 = head;
+        bool flag = true; // To skip alternate groups
+
+        while (count) {
+            // Setting iterators to reach/link the next group
+            int x = k - 1; // To reach the next group
+            temp = curr1;
+            while (x) {
+                temp = temp->next;
+                x--;
+            }
+            ListNode* prev2 = temp;
+            ListNode* curr2 = temp->next;
+
+            if (flag) {
+                // Reverse the current group
+                ListNode* prevptr = nullptr;
+                ListNode* currptr = curr1;
+                ListNode* nextptr;
+
+                while (currptr != curr2) {
+                    nextptr = currptr->next;
+                    currptr->next = prevptr;
+                    prevptr = currptr;
+                    currptr = nextptr;
+                }
+
+                // Adjust the links
+                prev1->next = prev2;
+                curr1->next = curr2;
+
+                // Move iterators for the next iteration
+                prev1 = curr1;
+                curr1 = curr1->next;
+            }
+            else {
+                //move iterators for the next iteration
+                prev1 = prev2;
+                curr1 = curr2;
+            }
+            flag = !flag;
+            count--;
+        }
+        return dummy->next;
+    }
+};
+```

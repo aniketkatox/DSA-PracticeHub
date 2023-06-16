@@ -31,3 +31,30 @@ class Solution:
 
 **Space Complexity**
 - The space complexity is O(1) since we are using only two additional pointers, turtle and hare, to find the middle node. The space usage remains constant regardless of the size of the linked list.
+
+# C++ Code
+
+```cpp
+class Solution {
+public:
+    /**
+     * Finds the middle node of a linked list.
+     * 
+     * @param head The head of the linked list.
+     * @return The middle node of the linked list.
+     */
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        // Traverse the list with two pointers, one moving one step at a time and the other moving two steps at a time
+        // When the fast pointer reaches the end of the list, the slow pointer will be at the middle node
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }   
+        return slow;
+    }
+};
+
+```

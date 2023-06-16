@@ -75,3 +75,69 @@ class Solution:
 
 **Space Complexity**
 - The space complexity is O(1) because we are using a constant amount of extra space for variables, regardless of the size of the input linked list. We are not using any additional data structures that grow with the input size.
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    /**
+     * Reverses every K elements in a linked list.
+     *
+     * @param head The head of the linked list.
+     * @param k The group size for reversing.
+     * @return The head of the modified linked list.
+     */
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if (head->next == NULL || k == 1) { // Base Case
+            return head;
+        }
+
+        int size = 0;
+        ListNode* temp = head;
+        while (temp != NULL) {
+            size++;
+            temp = temp->next;
+        }
+
+        int count = size / k; // Number of groups to be reversed
+        ListNode* dummy = new ListNode(0, head); // Create a dummy node to handle the modified list
+        ListNode* prev1 = dummy;
+        ListNode* curr1 = head;
+
+        while (count) {
+            // Set iterators to reach/link the next group
+            int x = k - 1; // To reach the next group
+            temp = curr1;
+            while (x) {
+                temp = temp->next;
+                x--;
+            }
+            ListNode* prev2 = temp;
+            ListNode* curr2 = temp->next;
+
+            // Reverse the current group
+            ListNode* prevptr = NULL;
+            ListNode* currptr = curr1;
+            ListNode* nextptr;
+
+            while (currptr != curr2) {
+                nextptr = currptr->next;
+                currptr->next = prevptr;
+                prevptr = currptr;
+                currptr = nextptr;
+            }
+
+            // Adjust the links
+            prev1->next = prev2;
+            curr1->next = curr2;
+
+            // Move iterators for the next iteration
+            prev1 = curr1;
+            curr1 = curr1->next;
+
+            count--;
+        }
+        return dummy->next;
+    }
+};
+```

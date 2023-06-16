@@ -43,3 +43,38 @@ class Solution:
 
 **Space Complexity**
 - The space complexity is O(1) since we are using only two additional pointers, turtle and hare, to detect the cycle. The space usage remains constant regardless of the size of the linked list.
+
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    /**
+     * Finds the starting node of a cycle in a linked list.
+     * 
+     * @param head The head of the linked list.
+     * @return The starting node of the cycle, or NULL if no cycle exists.
+     */
+    ListNode *detectCycle(ListNode *head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // Detect the cycle using the two-pointer approach
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if (slow == fast) {  // Cycle detected
+                slow = head;
+                // Move slow pointer to the head and advance both pointers at the same pace
+                while (slow != fast) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;  // Return the starting node of the cycle
+            }
+        }
+        return NULL;  // No cycle found, return NULL
+    }
+};
+```

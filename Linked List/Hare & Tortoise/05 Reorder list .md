@@ -94,3 +94,73 @@ findMidpoint:
 **Space Complexity**
 
 - Space Complexity: O(1). The method reorders the linked list in-place and does not require any additional space.
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    /**
+     * Reverses the second half of a linked list.
+     *
+     * @param head The head of the linked list.
+     * @return The head of the reversed second half of the linked list.
+     */
+    ListNode* reverse_other_half(ListNode* head) {
+        ListNode* prevptr = NULL;
+        ListNode* currptr = head;
+        ListNode* nextptr;
+
+        while (currptr != NULL) {
+            nextptr = currptr->next;
+            currptr->next = prevptr;
+            prevptr = currptr;
+            currptr = nextptr;
+        }
+        return prevptr;
+    }
+
+    /**
+     * Reorders a linked list by following the specified pattern.
+     *
+     * @param head The head of the linked list to be reordered.
+     */
+    void reorderList(ListNode* head) {
+        if (head->next == NULL) {
+            return;
+        }
+
+        // (1) Finding middle (slow) of the linked list
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* temp;
+
+        while (fast != NULL && fast->next != NULL) {
+            temp = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        temp->next = NULL; // Pointing the end of the first half to NULL
+
+        // (2) Reverse the second half of the linked list
+        ListNode* reversed_second_half = reverse_other_half(slow);
+
+        // (3) Merge both halves according to the question
+        ListNode* left = head;
+        ListNode* right = reversed_second_half;
+
+        while (left != NULL) {
+            ListNode* p1 = left->next;
+            ListNode* p2 = right->next;
+
+            left->next = right;
+            if (p1 == NULL) {
+                break;
+            }
+            right->next = p1;
+
+            left = p1;
+            right = p2;
+        }
+    }
+};
+```

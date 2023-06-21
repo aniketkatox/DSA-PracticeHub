@@ -1,3 +1,103 @@
+# Python
+```python
+class Node:
+    def __init__(self, key, value):
+        """
+        Node class to represent a node in the doubly linked list.
+
+        Args:
+            key (int): The key of the node.
+            value (int): The value associated with the key.
+        """
+        self.key = key
+        self.value = value
+        self.prev = None
+        self.next = None
+
+
+class LRUCache:
+    def __init__(self, capacity):
+        """
+        LRUCache class to implement a least recently used (LRU) cache.
+
+        Args:
+            capacity (int): The capacity of the LRUCache.
+        """
+        self.capacity = capacity
+        self.cache = {}  # Hash map to store key-node mappings
+        self.left = Node(0, 0)  # Left sentinel node
+        self.right = Node(0, 0)  # Right sentinel node
+        self.left.next = self.right
+        self.right.prev = self.left
+
+    def remove(self, node):
+        """
+        Remove a node from the list.
+
+        Args:
+            node (Node): The node to be removed.
+        """
+        prev_node = node.prev
+        next_node = node.next
+        prev_node.next = next_node
+        next_node.prev = prev_node
+
+    def insert(self, node):
+        """
+        Insert a node at the right end of the list.
+
+        Args:
+            node (Node): The node to be inserted.
+        """
+        prev_node = self.right.prev
+        prev_node.next = node
+        self.right.prev = node
+        node.prev = prev_node
+        node.next = self.right
+
+    def get(self, key):
+        """
+        Get the value associated with the given key from the LRUCache.
+
+        Args:
+            key (int): The key of the value to retrieve.
+
+        Returns:
+            int: The value associated with the given key, or -1 if not found.
+        """
+        if key in self.cache:
+            node = self.cache[key]
+            self.remove(node)
+            self.insert(node)
+            return node.value
+        return -1
+
+    def put(self, key, value):
+        """
+        Put a key-value pair into the LRUCache.
+        If the key already exists, update the value and adjust its position in the cache.
+        If the capacity is exceeded, remove the least recently used item.
+
+        Args:
+            key (int): The key of the item to be inserted or updated.
+            value (int): The value associated with the key.
+        """
+        if key in self.cache:
+            node = self.cache[key]
+            self.remove(node)
+            del self.cache[key]
+
+        node = Node(key, value)
+        self.cache[key] = node
+        self.insert(node)
+
+        if len(self.cache) > self.capacity:
+            lru = self.left.next
+            self.remove(lru)
+            del self.cache[lru.key]
+
+```
+
 **Time Complexity**
 - The time complexity for both the get and put operations is constant time O(1), making the implementation efficient for large caches.
 

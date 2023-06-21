@@ -4,6 +4,8 @@
 **Space Complexity**
 - The space complexity of the BrowserHistory class is O(N), where N is the number of URLs visited. This is because we are using additional memory to store the URLs in the doubly linked list.
 
+# C++ Code
+
 ```cpp
 // Doubly Linked List Node
 class Node {

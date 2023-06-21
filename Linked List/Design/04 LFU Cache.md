@@ -17,9 +17,9 @@ public:
     void update(int key) {
         int freq = values[key].second;
         auto iter = iters[key];
-        keys[freq].erase(iter);   //iterator is useful here
+        keys[freq].erase(iter);   //iterator is useful here((1)removing node from list)
         freq++;
-        keys[freq].push_back(key);
+        keys[freq].push_back(key);    //(2)inserting node in list
         values[key].second = freq;  //update frequency in map too
         iters[key] = --keys[freq].end();  //iterator of this node
 

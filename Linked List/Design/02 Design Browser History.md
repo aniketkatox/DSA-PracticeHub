@@ -1,3 +1,73 @@
+# Python Code
+
+```python
+class Node:
+    def __init__(self, url):
+        """
+        Node class to represent a node in the doubly linked list.
+
+        Args:
+            url (str): The URL of the web page.
+        """
+        self.url = url
+        self.prev = None
+        self.next = None
+
+
+class BrowserHistory:
+    def __init__(self, homepage):
+        """
+        BrowserHistory class to manage the browser history.
+
+        Args:
+            homepage (str): The URL of the homepage.
+        """
+        self.head = Node(homepage)  # Head node of the browser history
+        self.curr = self.head  # Current node representing the current page
+
+    def visit(self, url):
+        """
+        Visit a new URL and add it to the browser history.
+
+        Args:
+            url (str): The URL to visit.
+        """
+        new_node = Node(url)
+        self.curr.next = new_node
+        new_node.prev = self.curr
+        self.curr = self.curr.next
+
+    def back(self, steps):
+        """
+        Move back a certain number of steps in the browser history.
+
+        Args:
+            steps (int): The number of steps to move back.
+
+        Returns:
+            str: The URL of the page after moving back.
+        """
+        while self.curr.prev is not None and steps > 0:
+            self.curr = self.curr.prev
+            steps -= 1
+        return self.curr.url
+
+    def forward(self, steps):
+        """
+        Move forward a certain number of steps in the browser history.
+
+        Args:
+            steps (int): The number of steps to move forward.
+
+        Returns:
+            str: The URL of the page after moving forward.
+        """
+        while self.curr.next is not None and steps > 0:
+            self.curr = self.curr.next
+            steps -= 1
+        return self.curr.url
+```
+
 **Time Complexity**
 - The time complexity is primarily determined by the number of steps O(steps) for the back and forward operations. 
 

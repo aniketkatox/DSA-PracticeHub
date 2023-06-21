@@ -1,3 +1,82 @@
+# Python
+```python
+from collections import defaultdict, OrderedDict
+
+class LFUCache:
+    def __init__(self, capacity):
+        """
+        LFUCache class to implement a least frequently used (LFU) cache.
+
+        Args:
+            capacity (int): The capacity of the LFUCache.
+        """
+        self.capacity = capacity
+        self.lfu = 0  # Current least frequency used
+        self.values = {}  # {key: (value, frequency)}
+        self.keys = defaultdict(OrderedDict)  # {frequency: OrderedDict of keys}
+        self.iters = {}  # {key: iterator}
+
+    def update(self, key):
+        """
+        Update the frequency of a key and adjust its position in the frequency list.
+
+        Args:
+            key (int): The key to update.
+        """
+        freq = self.values[key][1]
+        iter = self.iters[key]
+        del self.keys[freq][key]  # Remove key from current frequency
+        freq += 1
+        self.keys[freq][key] = True  # Add key to new frequency
+        self.values[key] = (self.values[key][0], freq)  # Update frequency in values
+        self.iters[key] = next(reversed(self.keys[freq]))  # Update iterator
+
+        if not self.keys[self.lfu]:  # If minimum frequency list becomes empty
+            self.lfu += 1
+
+    def get(self, key):
+        """
+        Get the value associated with the given key from the LFUCache.
+
+        Args:
+            key (int): The key of the value to retrieve.
+
+        Returns:
+            int: The value associated with the given key, or -1 if not found.
+        """
+        if key not in self.values:
+            return -1
+        self.update(key)
+        return self.values[key][0]
+
+    def put(self, key, value):
+        """
+        Put a key-value pair into the LFUCache.
+        If the key already exists, update the value and increase its frequency.
+        If the capacity is exceeded, evict the least frequently used item.
+
+        Args:
+            key (int): The key of the item to be inserted or updated.
+            value (int): The value associated with the key.
+        """
+        if key in self.values:
+            self.values[key] = (value, self.values[key][1])
+            self.update(key)
+            return
+
+        if len(self.values) == self.capacity:
+            evict = next(iter(self.keys[self.lfu]))  # Get the first key from the minimum frequency list
+            del self.values[evict]
+            del self.iters[evict]
+            del self.keys[self.lfu][evict]
+
+        self.lfu = 1
+        self.values[key] = (value, self.lfu)
+        self.keys[self.lfu][key] = True
+        self.iters[key] = next(reversed(self.keys[self.lfu]))
+
+```
+
 **Time Complexity**
 - The time complexity for both the get and put operations is constant time O(1), making the implementation efficient for large caches.
 

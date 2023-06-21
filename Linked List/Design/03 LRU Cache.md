@@ -1,5 +1,5 @@
 **Time Complexity**
-- The time complexity for both the get and put operations is constant time, making the implementation efficient for large caches.
+- The time complexity for both the get and put operations is constant time O(1), making the implementation efficient for large caches.
 
 **Space Complexity**
 - The space complexity of the LRUCache class is O(capacity) since it can store up to capacity key-value pairs in the hash map and linked list.

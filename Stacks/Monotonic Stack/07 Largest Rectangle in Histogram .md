@@ -53,3 +53,46 @@ class Solution:
 
 - ### Space Complexity
 - O(N), where N is the length of the input array A. The function uses two additional arrays, nsl and nsr, each of length N to store the indices of the next smaller elements to the left and right, respectively. Additionally, a stack is used to track the indices, which can have a maximum size of N in the worst case. Hence, the space complexity is linear with respect to the size of the input array.
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+
+        int result = 0;
+        stack<int> st;
+        vector<int> left(n,-1);
+        vector<int> right(n,n);
+
+        for(int i=0;i<n;i++){   //(left->NSL index)(monotonically increasing)
+            while(st.size() && heights[st.top()] >= heights[i]){
+                st.pop();
+            }
+            if(!st.empty()){
+                left[i] = st.top();
+            }
+            st.push(i);
+        }
+
+        while(!st.empty()){ //empty the stack
+            st.pop();
+        }
+
+        for(int i=0;i<n;i++){   //(right->NSR index)(monotonically increasing)
+            while(st.size() && heights[st.top()] > heights[i]){
+                right[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+
+        for(int i=0;i<n;i++){
+            result = max(result,heights[i]*(right[i]-left[i]-1));
+        }
+        
+        return result;
+    }
+};
+```

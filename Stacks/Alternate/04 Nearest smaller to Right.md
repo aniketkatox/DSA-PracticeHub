@@ -8,7 +8,7 @@ public:
         vector<int> result(v.size(), -1);
         
         for(int i=0;i<v.size();i++){
-            while(st.size() && v[st.top()] >= v[i]){
+            while(st.size() && v[st.top()] > v[i]){
                 result[st.top()] = v[i];
                 st.pop();
             }

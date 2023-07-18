@@ -115,7 +115,7 @@ public:
 
         //NSR index(monotonically increasing)
         for(int i=0;i<n;i++){
-            while(st.size() && temp[st.top()] >= temp[i]){
+            while(st.size() && temp[st.top()] > temp[i]){
                 right[st.top()] = i;
                 st.pop();
             }

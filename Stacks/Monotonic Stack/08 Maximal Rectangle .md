@@ -83,3 +83,72 @@ class Solution:
 
 ### Space Complexity
 - overall space complexity is O(N), where N is the maximum of the number of columns or the length of the heights array.
+
+
+# C++ Code
+```cpp
+class Solution {
+public:
+
+    int mah(vector<int> temp){
+        int n = temp.size();
+
+        vector<int> left(n,-1);
+        vector<int> right(n,n);
+        stack<int> st;
+        int maximum_area = INT_MIN;
+
+        //NSL index(monotonically increasing)
+        for(int i=0;i<n;i++){
+            while(st.size() && temp[st.top()] >= temp[i]){
+                st.pop();
+            }
+            if(!st.empty()){
+                left[i] = st.top();
+            }
+            st.push(i);
+        }
+
+        while(st.size()){   //emptying the stack
+            st.pop();
+        }
+
+        //NSR index(monotonically increasing)
+        for(int i=0;i<n;i++){
+            while(st.size() && temp[st.top()] >= temp[i]){
+                right[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+
+        for(int i=0;i<n;i++){
+            maximum_area = max(maximum_area,temp[i]*(right[i]-left[i]-1));
+        }
+
+        return maximum_area;
+    }
+
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+
+        vector<int> temp(cols,0);
+        int maximum = INT_MIN;
+        
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(matrix[i][j] == '0'){
+                    temp[j] = 0;
+                }
+                else{
+                    temp[j] = temp[j]+(matrix[i][j]-'0');
+                }
+            }
+            maximum = max(maximum,mah(temp));
+        }
+
+        return maximum;
+    }
+};
+```

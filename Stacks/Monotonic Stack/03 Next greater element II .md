@@ -43,3 +43,25 @@ Therefore, the overall time complexity is O(N).
 The size of the stack can grow up to the maximum size of the input array nums, which is N.
 The result array also has a length of N, storing the next greater elements for each element in nums.
 Hence, the overall space complexity is O(N).
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> result(n,-1);
+        stack<int> st;
+
+        for(int i=0;i<2*n;i++){
+            while(st.size() && nums[st.top()] < nums[i%n]){
+                result[st.top()] = nums[i%n];
+                st.pop();
+            }
+            st.push(i%n);
+        }
+
+        return result;
+    }
+};
+```

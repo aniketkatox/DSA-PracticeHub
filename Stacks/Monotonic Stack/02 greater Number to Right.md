@@ -43,7 +43,7 @@ public:
         vector<int> result(v.size(), -1);
 
         for (int i = 0; i < v.size(); i++) {
-            while (!st.empty() && v[st.top()] <= v[i]) {
+            while (!st.empty() && v[st.top()] < v[i]) {
                 result[st.top()] = v[i];
                 st.pop();
             }

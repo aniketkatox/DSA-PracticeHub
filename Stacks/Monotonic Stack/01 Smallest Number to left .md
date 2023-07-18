@@ -49,3 +49,26 @@ class Solution {
 
 ### Space Complexity
 - The space complexity of the method is O(n), where n is the size of the input array a. This is due to the space used by the monoStack stack and the result list. In the worst case, the stack can store all the elements of the array if they are in non-decreasing order, resulting in O(n) space usage.
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    vector<int> NSL(vector<int> &v) {
+        stack<int> st;
+        vector<int> result(v.size(), -1);
+        
+        for(int i=0;i<v.size();i++){
+            while(st.size() && st.top() >= v[i]){
+                st.pop();
+            }
+            if(!st.empty()){
+                result[i] = st.top();
+            }
+            st.push(v[i]);
+        }
+
+        return result;
+    }
+};
+```

@@ -64,3 +64,53 @@ The left and right arrays each require O(n) space to store the count of elements
 The monoStack stack can contain at most n elements in the worst case, requiring O(n) space.
 Additionally, a few constant variables are used, which require O(1) space.
 Hence, the total space complexity is O(n).
+
+# C++ Code
+```cpp
+class Solution {
+public:
+    int mod = 1e9 + 7;
+    int sumSubarrayMins(vector<int>& arr) {
+        int n = arr.size();
+
+        vector<int> left(n,-1);
+        vector<int> right(n,n);
+        stack<int> st;
+
+        //(left->NSL index)(monotonically increasing)
+        for(int i=0;i<n;i++){
+            //(no equal sign , non-strict less)
+            while(st.size() && arr[st.top()] > arr[i]){
+                st.pop();
+            }
+            if(st.size()){
+                left[i] = st.top(); 
+            }
+            st.push(i);
+        }
+
+        //emptying the stack
+        while(st.size()){
+            st.pop();
+        }
+
+        //(right->NSR index)(monotonically increasing)
+        for(int i=0;i<n;i++){
+            while(st.size() && arr[st.top()] > arr[i]){
+                right[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
+        }
+
+        int result = 0;
+        for(int i=0;i<n;i++){
+            //Count of subarrays with the minimum element at index i
+            long long count = ((i-left[i])*(right[i]-i))%mod;
+            result = (result + arr[i]*count)%mod;
+        }
+
+        return result;
+    }
+};
+```
